@@ -17,22 +17,26 @@ class App extends React.Component {
     const updateMovies = this.state.movies.filter(function(item) {
       return item.id !== movie.id;
     });
-    console.log(updateMovies);
-    // this.state.movies = updateMovies;
     this.setState({
       movies: updateMovies
     });
   }
 
   addMovieToWillWatch = movie => {
-    console.log(movie);
-    // this.state.moviesWillWatch.push(movie);
     const updateMoviesWillWatch = [...this.state.moviesWillWatch, movie];
-
     this.setState({
       moviesWillWatch: updateMoviesWillWatch
     })
   };
+
+  removeMovieFromWillWatch = movie => {
+    const updateMoviesWillWatch = this.state.moviesWillWatch.filter(function(item) {
+      return item.id !== movie.id;
+    });
+    this.setState({
+      moviesWillWatch: updateMoviesWillWatch
+    });
+  }
 
   render() {
     console.log("render",this.state, this);
@@ -48,6 +52,7 @@ class App extends React.Component {
                       movie={movie}
                       removeMovie={this.removeMovie}
                       addMovieToWillWatch={this.addMovieToWillWatch}
+                      removeMovieFromWillWatch={this.removeMovieFromWillWatch}
                     />
                     </div>
                   );
