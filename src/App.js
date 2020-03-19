@@ -1,6 +1,7 @@
 import React from 'react';
-import { moviesData } from './moviesData';
+// import { moviesData } from './moviesData';
 import MovieItem from './movieItem';
+// import {API_URL}
 
 
 class App extends React.Component {
@@ -8,9 +9,20 @@ class App extends React.Component {
     super();
 
     this.state = {
-      movies: moviesData,
+      movies: [],
       moviesWillWatch: []
     };
+  }
+
+  componentDidMount() {
+    fetch("https://api.themoviedb.org/3/discover/movie?api_key=3f4ca4f3a9750da53450646ced312397").then((Response) => {
+      // &sort_by=popularity.asc
+      return Response.json()
+    }).then((data) => {
+      this.setState({
+        movies: data.results 
+      })
+    })
   }
 
   removeMovie = movie => {
