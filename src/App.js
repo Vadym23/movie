@@ -1,7 +1,8 @@
 import React from 'react';
 // import { moviesData } from './moviesData';
 import MovieItem from './movieItem';
-// import {API_URL}
+import {API_URL, API_KEY_3} from './utils/api'
+import MovieTabs from './components/MovieTabs'
 
 
 class App extends React.Component {
@@ -10,19 +11,20 @@ class App extends React.Component {
 
     this.state = {
       movies: [],
-      moviesWillWatch: []
+      moviesWillWatch: [],
+      sort_by: 'popularity.desc'
     };
   }
 
   componentDidMount() {
-    fetch("https://api.themoviedb.org/3/discover/movie?api_key=3f4ca4f3a9750da53450646ced312397").then((Response) => {
-      // &sort_by=popularity.asc
-      return Response.json()
-    }).then((data) => {
-      this.setState({
-        movies: data.results 
+    fetch(`${API_URL}discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}`)
+      .then((Response) => {
+        return Response.json()
+      }).then((data) => {
+        this.setState({
+          movies: data.results 
+        })
       })
-    })
   }
 
   removeMovie = movie => {
@@ -50,26 +52,44 @@ class App extends React.Component {
     });
   }
 
+  updateSortBy = value => {
+    this.setState({
+      sort_by: value
+    })
+  }
+
   render() {
     console.log("render",this.state, this);
     return (
       <div className='container'>
-        <div className='row'>
+        <div className='row mt-4'>
           <div className='col-md-9'>
-            <div className='row'>
+
+            {/* Tabs */}
+            <div className='row mb-4'>
+              <div className="col-12">
+                <MovieTabs 
+                  sort_by={this.state.sort_by}
+                  updateSortBy={this.updateSortBy}
+                />
+              </div>
+            </div>
+
+            {/* Movies List */}
+            <div className="row">
               {this.state.movies.map(movie => {
-                  return (
-                    <div className='col-md-6 mb-4' key={movie.id}>
+                return (
+                  <div className='col-md-6 mb-4' key={movie.id}>
                     <MovieItem
                       movie={movie}
                       removeMovie={this.removeMovie}
                       addMovieToWillWatch={this.addMovieToWillWatch}
                       removeMovieFromWillWatch={this.removeMovieFromWillWatch}
                     />
-                    </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
           <div className='col-md-3'>
               <p>Will watch: {this.state.moviesWillWatch.length}</p>
