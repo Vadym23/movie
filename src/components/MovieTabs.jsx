@@ -24,15 +24,15 @@ const MovieTabs = props => {
            </li>
            <li className='nav-item'>
                <div 
-                    className={getClassLink('revenue.desk')}
-                    onClick={handleClick('revenue.desk')}
+                    className={getClassLink('revenue.desc')}
+                    onClick={handleClick('revenue.desc')}
                 >
                     Revenue desk
                </div>
            </li>
            <li className='nav-item'>
                <div 
-                    className={getClassLink('vote_average.desk')}
+                    className={getClassLink('vote_average.desc')}
                     onClick={handleClick('vote_average.desc')}
                 >
                     Vote avetage desk
