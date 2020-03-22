@@ -8,8 +8,13 @@ class MovieItem extends React.Component {
             willWatch: false
         };
     }
-    render () {
-        const { movie, removeMovie, addMovieToWillWatch, removeMovieFromWillWatch } = this.props;
+    render() {
+        const {
+            movie,
+            removeMovie,
+            addMovieToWillWatch, 
+            removeMovieFromWillWatch
+        } = this.props;
             return (
                 <div className="card">
                     <img

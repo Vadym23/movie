@@ -12,19 +12,12 @@ class App extends React.Component {
     this.state = {
       movies: [],
       moviesWillWatch: [],
-      sort_by: 'popularity.desc'
+      sort_by: 'revenue.desc'
     };
   }
 
   componentDidMount() {
-    fetch(`${API_URL}discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}`)
-      .then((Response) => {
-        return Response.json()
-      }).then((data) => {
-        this.setState({
-          movies: data.results 
-        })
-      })
+    this.getMovies();
   }
 
   removeMovie = movie => {
@@ -43,6 +36,28 @@ class App extends React.Component {
     })
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.sort_by !== this.state.sort_by) {
+      this.getMovies();
+    }
+  }
+
+  getMovies = () => {
+    fetch(
+      `${API_URL}discover/movie?api_key=${API_KEY_3}&sort_by=${
+        this.state.sort_by
+      }`
+    )
+      .then(Response => {
+        return Response.json();
+      })
+      .then(data => {
+        this.setState({
+          movies: data.results 
+          });
+      });
+  }
+
   removeMovieFromWillWatch = movie => {
     const updateMoviesWillWatch = this.state.moviesWillWatch.filter(function(item) {
       return item.id !== movie.id;
@@ -59,7 +74,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log("render",this.state, this);
+
     return (
       <div className='container'>
         <div className='row mt-4'>
